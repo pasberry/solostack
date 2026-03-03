@@ -8,6 +8,7 @@ import {
   Clock,
   FileText,
   Settings,
+  Briefcase,
 } from "lucide-react";
 
 export default async function DashboardLayout({
@@ -25,6 +26,7 @@ export default async function DashboardLayout({
     { href: "/", label: "Dashboard", icon: LayoutDashboard },
     { href: "/leads", label: "Leads", icon: UserPlus },
     { href: "/clients", label: "Clients", icon: Users },
+    { href: "/projects", label: "Projects", icon: Briefcase },
     { href: "/time", label: "Time", icon: Clock },
     { href: "/invoices", label: "Invoices", icon: FileText },
     { href: "/settings", label: "Settings", icon: Settings },
