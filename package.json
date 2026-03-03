@@ -2,7 +2,7 @@
   "name": "solostack",
   "private": true,
   "packageManager": "npm@10.0.0",
-  "workspaces": ["www", "packages/*"],
+  "workspaces": ["apps/web", "packages/*"],
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
