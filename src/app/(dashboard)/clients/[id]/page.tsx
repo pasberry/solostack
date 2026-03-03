@@ -27,7 +27,6 @@ export default function ClientDetailPage() {
     );
   }
 
-  const { client, projects, totalRevenue, outstandingAmount, invoiceCount } =
     clientData;
 
   const formatCurrency = (cents: number) => {

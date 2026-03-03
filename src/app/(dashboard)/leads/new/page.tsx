@@ -127,7 +127,7 @@ export default function NewLeadPage() {
               onChange={(e) =>
                 setFormData({
                   ...formData,
-                  source: e.target.value as any,
+                  source: e.target.value as LeadSource,
                 })
               }
               className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-black focus:outline-none"

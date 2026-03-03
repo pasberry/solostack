@@ -1,30 +1,28 @@
 "use client";
 
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useSyncExternalStore } from "react";
 import { ConvexReactClient } from "convex/react";
 
 const convex = new ConvexReactClient(
   process.env.NEXT_PUBLIC_CONVEX_URL || "http://localhost:3000"
 );
 
+function useHydrated() {
+  return useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
+}
+
 export function ConvexClientProvider({ children }: { children: ReactNode }) {
-  const [mounted, setMounted] = useState(false);
+  const hydrated = useHydrated();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // Prevent hydration issues
-  if (!mounted) {
+  if (!hydrated) {
     return null;
   }
 
-  return (
-    <>
-      {/* ConvexProvider is already wrapped in Providers.tsx */}
-      {children}
-    </>
-  );
+  return <>{children}</>;
 }
 
 export { convex };

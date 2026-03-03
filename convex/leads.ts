@@ -45,7 +45,7 @@ export const getLeadsByStatus = query({
       return ctx.db
         .query("leads")
         .withIndex("userId_status", (q) =>
-          q.eq("userId", user._id).eq("status", args.status as any)
+          q.eq("userId", user._id).eq("status", args.status as LeadStatus)
         )
         .collect();
     }

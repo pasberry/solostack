@@ -62,7 +62,7 @@ export default function LeadDetailPage() {
 
   const handleStatusChange = async (newStatus: string) => {
     if (!lead) return;
-    await updateStatus({ leadId: lead._id, status: newStatus as any });
+    await updateStatus({ leadId: lead._id, status: newStatus as LeadStatus });
   };
 
   const handleAddActivity = async (action: string) => {
