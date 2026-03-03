@@ -1,14 +1,28 @@
 "use client";
 
-import { ReactNode, useState } from "react";
-import { ClerkProvider, useClerk } from "@clerk/nextjs";
+import { ReactNode, useSyncExternalStore } from "react";
 import { ConvexReactClient } from "convex/react";
 
-const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+const convex = new ConvexReactClient(
+  process.env.NEXT_PUBLIC_CONVEX_URL || "http://localhost:3000"
+);
+
+function useHydrated() {
+  return useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
+}
 
 export function ConvexClientProvider({ children }: { children: ReactNode }) {
+  const hydrated = useHydrated();
+
+  if (!hydrated) {
+    return null;
+  }
+
   return <>{children}</>;
 }
 
-// Re-export convex for use in components
 export { convex };
