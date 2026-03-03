@@ -4,47 +4,76 @@ import { vi } from "vitest";
 vi.mock("@/convex/_generated/api", () => ({
   api: {
     projects: {
-      getProjects: vi.fn(),
-      getProject: vi.fn(),
-      createProject: vi.fn(),
-      updateProject: vi.fn(),
-      updateProjectStatus: vi.fn(),
-      deleteProject: vi.fn(),
+      getProjects: "getProjects",
+      getProject: "getProject",
+      createProject: "createProject",
+      updateProject: "updateProject",
+      updateProjectStatus: "updateProjectStatus",
+      deleteProject: "deleteProject",
     },
     time: {
-      getTimeEntries: vi.fn(),
-      getUnbilledByClient: vi.fn(),
-      startTimer: vi.fn(),
-      stopTimer: vi.fn(),
-      addManualEntry: vi.fn(),
-      deleteTimeEntry: vi.fn(),
+      getTimeEntries: "getTimeEntries",
+      getUnbilledByClient: "getUnbilledByClient",
+      startTimer: "startTimer",
+      stopTimer: "stopTimer",
+      addManualEntry: "addManualEntry",
+      deleteTimeEntry: "deleteTimeEntry",
     },
     clients: {
-      getClients: vi.fn(),
-      getClient: vi.fn(),
-      createClient: vi.fn(),
-      updateClient: vi.fn(),
-      deleteClient: vi.fn(),
+      getClients: "getClients",
+      getClient: "getClient",
+      createClient: "createClient",
+      updateClient: "updateClient",
+      deleteClient: "deleteClient",
     },
     leads: {
-      getLeads: vi.fn(),
-      getLead: vi.fn(),
-      createLead: vi.fn(),
-      updateLead: vi.fn(),
-      deleteLead: vi.fn(),
+      getLeads: "getLeads",
+      getLead: "getLead",
+      createLead: "createLead",
+      updateLead: "updateLead",
+      deleteLead: "deleteLead",
+      updateLeadStatus: "updateLeadStatus",
     },
     settings: {
-      getSettings: vi.fn(),
-      updateSettings: vi.fn(),
+      getSettings: "getSettings",
+      updateSettings: "updateSettings",
     },
   },
 }));
 
-// Mock ConvexClientProvider
-vi.mock("@/app/ConvexClientProvider", () => ({
-  useQuery: vi.fn(() => null),
-  useMutation: vi.fn(() => vi.fn(() => Promise.resolve())),
-}));
+// Mock ConvexClientProvider (for projects page)
+vi.mock("@/app/ConvexClientProvider", () => {
+  const mockData: Record<string, any[]> = {
+    getProjects: [{ _id: "p1", clientId: "c1", name: "Project Alpha", status: "in_progress", billingType: "hourly", rate: 150 }],
+    getClients: [{ _id: "c1", name: "Acme Corp", company: "Acme", email: "test@acme.com" }],
+    getLeads: [{ _id: "l1", name: "Lead One", status: "new", source: "referral" }],
+    getSettings: [{ _id: "s1", reminderDays: 3, emailNotifications: true }],
+  };
+  return {
+    useQuery: vi.fn((query: any) => {
+      const key = query?.toString() || "";
+      return mockData[key] || [];
+    }),
+    useMutation: vi.fn(() => vi.fn(() => Promise.resolve())),
+  };
+});
+
+// Mock convex/react (for clients page)
+vi.mock("convex/react", () => {
+  const mockData: Record<string, any[]> = {
+    getProjects: [{ _id: "p1", clientId: "c1", name: "Project Alpha", status: "in_progress", billingType: "hourly", rate: 150 }],
+    getClients: [{ _id: "c1", name: "Acme Corp", company: "Acme", email: "test@acme.com" }],
+    getLeads: [{ _id: "l1", name: "Lead One", status: "new", source: "referral" }],
+    getSettings: [{ _id: "s1", reminderDays: 3, emailNotifications: true }],
+  };
+  return {
+    useQuery: vi.fn((query: any) => {
+      const key = query?.toString() || "";
+      return mockData[key] || [];
+    }),
+    useMutation: vi.fn(() => vi.fn(() => Promise.resolve())),
+  };
+});
 
 // Mock Clerk
 vi.mock("@clerk/nextjs", () => ({
@@ -59,11 +88,7 @@ vi.mock("@clerk/nextjs", () => ({
 
 // Mock next/navigation
 vi.mock("next/navigation", () => ({
-  useRouter: vi.fn(() => ({
-    push: vi.fn(),
-    replace: vi.fn(),
-    back: vi.fn(),
-  })),
+  useRouter: vi.fn(() => ({ push: vi.fn(), replace: vi.fn(), back: vi.fn() })),
   useParams: vi.fn(() => ({})),
   usePathname: vi.fn(() => "/"),
   redirect: vi.fn(),
@@ -86,5 +111,7 @@ vi.mock("lucide-react", () => {
     Edit: MockIcon,
     Check: MockIcon,
     X: MockIcon,
+    Search: MockIcon,
+    Filter: MockIcon,
   };
 });
