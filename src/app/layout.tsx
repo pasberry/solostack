@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ConsultantOS - CRM for Solo IT Consultants",
+  title: "SoloStack - CRM for Solo IT Consultants",
   description:
     "All-in-one business management tool for solo IT consultants - from lead to invoice",
 };

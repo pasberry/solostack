@@ -35,7 +35,7 @@ export default async function DashboardLayout({
       {/* Sidebar - desktop */}
       <aside className="hidden md:flex w-64 flex-col border-r bg-white">
         <div className="border-b p-4">
-          <h1 className="text-xl font-bold">ConsultantOS</h1>
+          <h1 className="text-xl font-bold">SoloStack</h1>
         </div>
         <nav className="flex-1 p-4">
           <ul className="space-y-1">
@@ -58,7 +58,7 @@ export default async function DashboardLayout({
       <main className="flex-1">
         {/* Mobile header */}
         <header className="md:hidden border-b bg-white p-4">
-          <h1 className="text-lg font-bold">ConsultantOS</h1>
+          <h1 className="text-lg font-bold">SoloStack</h1>
         </header>
 
         {/* Mobile bottom nav */}
