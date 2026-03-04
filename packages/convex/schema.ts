@@ -113,19 +113,31 @@ export default defineSchema({
     clientId: v.id("clients"),
     projectId: v.optional(v.id("projects")),
     invoiceNumber: v.string(),
-    date: v.number(),
-    dueDate: v.optional(v.number()),
-    amount: v.number(),
     status: v.union(
       v.literal("draft"),
       v.literal("sent"),
       v.literal("paid"),
       v.literal("overdue")
     ),
+    subtotal: v.number(),
+    tax: v.number(),
+    total: v.number(),
+    dueDate: v.number(),
+    sentAt: v.optional(v.number()),
+    paidAt: v.optional(v.number()),
     notes: v.optional(v.string()),
     createdAt: v.number(),
     updatedAt: v.number(),
   }).index("userId", ["userId"])
    .index("clientId", ["clientId"])
    .index("userId_status", ["userId", "status"]),
+
+  // Invoice line items
+  invoiceItems: defineTable({
+    invoiceId: v.id("invoices"),
+    description: v.string(),
+    quantity: v.number(),
+    rate: v.number(),
+    amount: v.number(),
+  }).index("invoiceId", ["invoiceId"]),
 });
